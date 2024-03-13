@@ -30,14 +30,16 @@ def clean_data():
 
     # Limpieza del formato de la columna "fecha_de_beneficio"
     df["fecha_de_beneficio"] = pd.to_datetime(
-        df.fecha_de_beneficio, format="mixed"
-    ).dt.strftime("%d/%m/%Y")
+        df.fecha_de_beneficio, format="%d/%m/%Y", errors="coerce"
+    ).fillna(pd.to_datetime(df.fecha_de_beneficio, format="%Y/%m/%d", errors="coerce"))
 
-    # Limpieza de la columna "monto_del_credito"
-    df["monto_del_credito"] = df["monto_del_credito"].replace("[,$]", "", regex=True)
-    df["monto_del_credito"] = df["monto_del_credito"].replace("(.00$)", "", regex=True)
+    # Limpieza de la columna "monto_del_credito" y conversión a float
+    df.monto_del_credito = df.monto_del_credito.str.rstrip()
+    df.monto_del_credito = df.monto_del_credito.replace("[,$]", "", regex=True)
+    df.monto_del_credito = df.monto_del_credito.replace("(\\.00$)", "", regex=True)
+    df.monto_del_credito = df.monto_del_credito.astype(float)
 
-    # Eliminación de columnas duplicadas y nulas
+    # Eliminación de columnas duplicadas y valores nulos
     df = df.drop_duplicates().dropna()
 
     return df
