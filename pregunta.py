@@ -16,13 +16,13 @@ def clean_data():
 
     df = df.replace("-", " ", regex=True).replace("_", " ", regex=True)
 
-    # Limpieza de las columnas "sexo", "tipo_de_emprendimiento" y "línea_credito"
+    # Limpieza de las columnas "sexo", "tipo_de_emprendimiento" y "barrio"
     df["sexo"] = df["sexo"].str.lower()
     df["tipo_de_emprendimiento"] = df["tipo_de_emprendimiento"].str.lower()
+    df["barrio"] = df["barrio"].str.lower()
 
-    # Limpieza de las columnas "idea_negocio" y "barrio"
+    # Limpieza de las columnas "idea_negocio" y "línea_crédito"
     df["idea_negocio"] = df["idea_negocio"].str.lower().str.strip()
-    df["barrio"] = df["barrio"].str.lower().str.strip()
     df["línea_credito"] = df["línea_credito"].str.lower().str.strip()
 
     # Conversión a entero de la columna "comuna_ciudadano"
